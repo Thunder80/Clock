@@ -1,7 +1,9 @@
 
 var r = -15;//to scale the size of heart
-var v = 0;//variable to increase 
+var v1 = 0, v2 = 0;//variable to increase 
 var back = false;
+var r1 = 0, g1 = 0, b1 = 0;
+var r2 = 255, g2 = 255, b2 = 255;
 
 //months
 var months = ["Jan", "Feb", "Marh", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -37,12 +39,11 @@ var s = {
 function setup(){
 	cnv = createCanvas(windowWidth, windowHeight);
 	d = new Date();
-	day = d.getDate();
-	if(day-1 < 0)
-	{
-		d = 11;
-	}
 	textFont("Georgia");
+	hr = d.getHours() * 30;
+	mr = d.getMinutes() * 6;
+	sr = d.getSeconds() * 6;
+	sec = (int)(d.getMilliseconds() / 17);
 }
 
 function draw(){
@@ -61,11 +62,22 @@ function draw(){
 		vertex(x, y);
 	}
 	endShape();
-	noFill();
-	stroke(255);
+	/*noFill();
+	stroke(r1, b1, g1);
 	strokeWeight(10);
 	beginShape();
-	for(var t = 0;t < v;t+=0.01)
+	for(var t = 0;t < 2*PI;t+=0.01)
+	{
+		var x = r * 16 * pow(sin(t), 3);
+		var y = r * (13 * cos(t) - 5 * cos(2 * t) - 2 * cos(3 * t) - cos(4 * t));
+		vertex(x, y);
+	}
+	endShape();*/
+	noFill();
+	stroke(r2, g2, b2);
+	strokeWeight(10);
+	beginShape();
+	for(var t = v1;t < v2;t+=0.01)
 	{
 		var x = r * 16 * pow(sin(t), 3);
 		var y = r * (13 * cos(t) - 5 * cos(2 * t) - 2 * cos(3 * t) - cos(4 * t));
@@ -81,7 +93,7 @@ function draw(){
 	strokeWeight(10);
 	rotate(hr);
 	line(0, 0, h.x2-h.x1, h.y2-h.y1);
-	stroke(0, 0, 0, 100);
+	stroke(255, 255, 255, 100);
 	rotate(-hr);
 	rotate(mr);
 	line(0, 0, m.x2-m.x1, m.y2-m.y1);
@@ -92,8 +104,7 @@ function draw(){
 	fill(255);
 	noStroke();
 	text("Date:", -180, -120);
-	text(months[month], -180, -80);
-	text(, -110, -80);
+	text(months[d.getMonth()] + " " + d.getDay(), -175, -80);
 	text(hr/30 + " : " + mr/6 + ":" + sr/6, 60, -100);
 
 	//calculation
@@ -117,16 +128,23 @@ function draw(){
 	{
 		hr = 0;
 	}
-	if(!back)
+	if(v2 > 2*PI)
+		back = true;
+	if(v1 > 2*PI)
 	{
-		v += PI/30;
-		if(v >= 2*PI)
-			back = true;
+		back = false;
+		v1 = 0;
+		v2 = 0;
+		r2 = random(0, 255);
+		b2 = random(0, 255);
+		g2 = random(0, 255);
 	}
+
+	if(!back)
+		v2 += PI / 30;
 	else
 	{
-		v -= PI/30;
-		if(v <= 0)
-			back = false;
+		v1 += PI / 30;
 	}
+
 }
