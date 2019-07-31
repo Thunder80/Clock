@@ -62,8 +62,8 @@ function draw(){
 		vertex(x, y);
 	}
 	endShape();
-	/*noFill();
-	stroke(r1, b1, g1);
+	noFill();
+	stroke(r1, g1, b1);
 	strokeWeight(10);
 	beginShape();
 	for(var t = 0;t < 2*PI;t+=0.01)
@@ -72,12 +72,12 @@ function draw(){
 		var y = r * (13 * cos(t) - 5 * cos(2 * t) - 2 * cos(3 * t) - cos(4 * t));
 		vertex(x, y);
 	}
-	endShape();*/
+	endShape();
 	noFill();
 	stroke(r2, g2, b2);
 	strokeWeight(10);
 	beginShape();
-	for(var t = v1;t < v2;t+=0.01)
+	for(var t = 0;t < v2;t+=0.01)
 	{
 		var x = r * 16 * pow(sin(t), 3);
 		var y = r * (13 * cos(t) - 5 * cos(2 * t) - 2 * cos(3 * t) - cos(4 * t));
@@ -105,7 +105,7 @@ function draw(){
 	noStroke();
 	text("Date:", -180, -120);
 	text(months[d.getMonth()] + " " + d.getDay(), -175, -80);
-	text(hr/30 + " : " + mr/6 + ":" + sr/6, 60, -100);
+	text(hr/30 + " : " + mr/6 + ":" + sr/6, 50, -120);
 
 	//calculation
 	sec++;
@@ -128,23 +128,16 @@ function draw(){
 	{
 		hr = 0;
 	}
-	if(v2 > 2*PI)
-		back = true;
-	if(v1 > 2*PI)
+	v2 += PI/30;
+	if(v2 >= 2*PI)
 	{
-		back = false;
-		v1 = 0;
-		v2 = 0;
+		r1 = r2;
+		g1 = g2;
+		b1 = b2;
 		r2 = random(0, 255);
-		b2 = random(0, 255);
 		g2 = random(0, 255);
-	}
-
-	if(!back)
-		v2 += PI / 30;
-	else
-	{
-		v1 += PI / 30;
+		b2 = random(0, 255);
+		v2 = 0;
 	}
 
 }
